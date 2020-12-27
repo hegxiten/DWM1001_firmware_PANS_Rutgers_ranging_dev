@@ -149,7 +149,7 @@ void app_thread_entry(uint32_t data)
 	}
 
 	rv = dwm_label_read(label, &label_len);
-
+        
 	if (rv == DWM_OK) {
 		printf("LABEL(len=%d):", label_len);
 		for (rv = 0; rv < label_len; ++rv) {
@@ -162,9 +162,10 @@ void app_thread_entry(uint32_t data)
 
 	while (1) {
 		/* Thread loop */
+                printf(cfg.mode == DWM_MODE_TAG);
 		rv = dwm_evt_wait(&evt);
                 dwm_pos_get(&pos);
-                printf("x=%ld, y=%ld, z=%ld, qf=%u \n", pos.x, pos.y, pos.z, pos.qf);
+                printf("DIST,x=%ld, y=%ld, z=%ld, qf=%u \n", pos.x, pos.y, pos.z, pos.qf);
                 printf("\t\t time=%lu \n", dwm_systime_us_get());
 		if (rv != DWM_OK) {
 			printf("dwm_evt_wait, error %d\n", rv);

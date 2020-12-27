@@ -13,6 +13,8 @@
  <Project>
   <ProjectSessionItem path="dwm-api-test"/>
   <ProjectSessionItem path="dwm-api-test;dwm-api-test"/>
+  <ProjectSessionItem path="dwm-api-test;dwm-api-test;Header"/>
+  <ProjectSessionItem path="dwm-api-test;dwm-api-test;Internal"/>
   <ProjectSessionItem path="dwm-api-test;dwm-api-test;Source"/>
  </Project>
  <Register1/>
@@ -38,7 +40,8 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="931" useTextEdit="1" useBinaryEdit="0" left="0" path="dwm-api-test.c" selected="1" top="879" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="702" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="dwm-api-test.c" selected="1" top="677" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="51" y="784" useTextEdit="1" openedFrom="C:/Users/wangz/Documents/GitHub/DMW1001_firmware/DWM1001_on_board_package_R2.0/dwm/examples/dwm-api-test/dwm-api-test.c" useBinaryEdit="0" left="0" path="../../include/dwm.h" selected="0" top="742" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="dwm-api-test" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="dwm1001_configuration" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="dwm-api-test" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="dwm1001_configuration" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
