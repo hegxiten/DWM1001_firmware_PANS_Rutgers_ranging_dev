@@ -1,6 +1,6 @@
 <!DOCTYPE CrossStudio_Project_File>
-<solution Name="dwm-simple" target="8" version="2">
-  <project Name="dwm-simple">
+<solution Name="dwm-accelerometer-enabled" target="8" version="2">
+  <project Name="dwm-accelerometer-enabled">
     <configuration
       Name="Common"
       arm_architecture="v7M"

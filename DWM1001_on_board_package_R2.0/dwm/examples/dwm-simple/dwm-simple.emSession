@@ -11,11 +11,11 @@
  <Memory3/>
  <Memory4/>
  <Project>
-  <ProjectSessionItem path="dwm-simple"/>
-  <ProjectSessionItem path="dwm-simple;dwm-simple"/>
-  <ProjectSessionItem path="dwm-simple;dwm-simple;Header"/>
-  <ProjectSessionItem path="dwm-simple;dwm-simple;Internal"/>
-  <ProjectSessionItem path="dwm-simple;dwm-simple;Source"/>
+  <ProjectSessionItem path="dwm-accelerometer-enabled"/>
+  <ProjectSessionItem path="dwm-accelerometer-enabled;dwm-accelerometer-enabled"/>
+  <ProjectSessionItem path="dwm-accelerometer-enabled;dwm-accelerometer-enabled;Header"/>
+  <ProjectSessionItem path="dwm-accelerometer-enabled;dwm-accelerometer-enabled;Internal"/>
+  <ProjectSessionItem path="dwm-accelerometer-enabled;dwm-accelerometer-enabled;Source"/>
  </Project>
  <Register1/>
  <Register2/>
@@ -40,8 +40,8 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="49" y="153" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="dwm-simple.c" selected="1" top="132" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="13" y="142" useTextEdit="1" openedFrom="C:/Users/wangz/Documents/GitHub/DMW1001_firmware/DWM1001_on_board_package_R2.0/dwm/examples/dwm-simple/dwm-simple.c" useBinaryEdit="0" left="0" path="../../include/dwm.h" selected="0" top="114" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="7" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="dwm-simple.c" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="840" useTextEdit="1" openedFrom="C:/Users/wangz/Documents/GitHub/DMW1001_firmware/DWM1001_on_board_package_R2.0/dwm/examples/dwm-simple/dwm-simple.c" useBinaryEdit="0" left="0" path="../../include/dwm.h" selected="0" top="815" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="dwm-simple" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="dwm1001_configuration" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="dwm-accelerometer-enabled" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="dwm1001_configuration" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

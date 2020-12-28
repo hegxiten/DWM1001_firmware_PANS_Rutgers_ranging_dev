@@ -1,7 +1,9 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints groups="Breakpoints" active_group="Breakpoints"/>
+ <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <BreakpointListItem trigger="" line="723" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="dwm-api-test.c" useHWbreakpoint="false"/>
+ </Breakpoints>
  <ExecutionProfileWindow/>
  <FrameBufferWindow>
   <FrameBufferWindow bufferHeight="-1" addressSpace="" addressText="" bufferWidth="-1"/>
@@ -40,8 +42,8 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="702" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="dwm-api-test.c" selected="1" top="677" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="51" y="784" useTextEdit="1" openedFrom="C:/Users/wangz/Documents/GitHub/DMW1001_firmware/DWM1001_on_board_package_R2.0/dwm/examples/dwm-api-test/dwm-api-test.c" useBinaryEdit="0" left="0" path="../../include/dwm.h" selected="0" top="742" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="749" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="dwm-api-test.c" selected="1" top="709" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="840" useTextEdit="1" openedFrom="C:/Users/wangz/Documents/GitHub/DMW1001_firmware/DWM1001_on_board_package_R2.0/dwm/examples/dwm-api-test/dwm-api-test.c" useBinaryEdit="0" left="0" path="../../include/dwm.h" selected="0" top="815" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="dwm-api-test" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="dwm1001_configuration" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="dwm-api-test" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="dwm1001_configuration" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>

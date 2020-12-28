@@ -1,9 +1,10 @@
 /**
  * LEAPS - Low Energy Accurate Positioning System.
  *
- * Simple user application.
+ * Simple user application with accelerometer data reporting attached.
  *
  * Copyright (c) 2016-2019, LEAPS. All rights reserved.
+ * Modified by Zezhou Wang, Dec. 2020.
  *
  */
 
@@ -28,47 +29,84 @@ do {							\
 
 #define MSG_INIT	\
 	"\n\n"	\
-	"App   :  dwm-simple\n"	\
+	"App   :  dwm-accelerometer-enabled\n"	\
 	"Built :  " __DATE__ " " __TIME__ "\n"	\
 	"\n"
+
+#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+#define BYTE_TO_BINARY(byte)  \
+  (byte & 0x80 ? '1' : '0'), \
+  (byte & 0x40 ? '1' : '0'), \
+  (byte & 0x20 ? '1' : '0'), \
+  (byte & 0x10 ? '1' : '0'), \
+  (byte & 0x08 ? '1' : '0'), \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0') 
 
 /**
  * Event callback
  *
  * @param[in] p_evt  Pointer to event structure
  */
+#define LIS2DX_SLAVE_ADDR       0x19   /* Accelerometer I2C slave address */
+#define OUT_X_L 0x28 /* Accelerometer X-axis register sub-address, low*/
+#define OUT_X_H 0x29 /* Accelerometer X-axis register sub-address, high*/
+#define OUT_Y_L 0x2A /* Accelerometer Y-axis register sub-address, low*/
+#define OUT_Y_H 0x2B /* Accelerometer Y-axis register sub-address, high*/
+#define OUT_Z_L 0x2C /* Accelerometer Y-axis register sub-address, low*/
+#define OUT_Z_H 0x2D /* Accelerometer Y-axis register sub-address, high*/
 void on_dwm_evt(dwm_evt_t *p_evt)
 {
 	int len;
 	int i;
-
-	switch (p_evt->header.id) {
+        int rv;
+        const uint8_t REGISTER[6] = {OUT_X_H, OUT_X_L, OUT_Y_H, OUT_Y_L, OUT_Z_H, OUT_Z_L};
+        uint8_t data[6];
+        int16_t acc[3];
+        const uint8_t addr = LIS2DX_SLAVE_ADDR; // some address of the slave device 
+        switch (p_evt->header.id) {
 	/* New location data */
 	case DWM_EVT_LOC_READY:
-		printf("\nT:%lu ", dwm_systime_us_get());
-		if (p_evt->loc.pos_available) {
-			printf("POS:[%ld,%ld,%ld,%u] ", p_evt->loc.pos.x,
-					p_evt->loc.pos.y, p_evt->loc.pos.z,
-					p_evt->loc.pos.qf);
-		} else {
-			printf("POS:N/A ");
-		}
-
+                
+                printf("DIST,%d,",p_evt->loc.anchors.an_pos.cnt);
 		for (i = 0; i < p_evt->loc.anchors.dist.cnt; ++i) {
-			printf("DIST%d:", i);
-
-			printf("0x%04X", (unsigned int)(p_evt->loc.anchors.dist.addr[i] & 0xffff));
+			printf("[AN%d,%04X,", i, (unsigned int)(p_evt->loc.anchors.dist.addr[i] & 0xffff));
 			if (i < p_evt->loc.anchors.an_pos.cnt) {
-				printf("[%ld,%ld,%ld]",
+				printf("%ld,%ld,%ld]",
 						p_evt->loc.anchors.an_pos.pos[i].x,
 						p_evt->loc.anchors.an_pos.pos[i].y,
 						p_evt->loc.anchors.an_pos.pos[i].z);
 			}
 
-			printf("=[%lu,%u] ", p_evt->loc.anchors.dist.dist[i],
+			printf("=[%lu,%u],", p_evt->loc.anchors.dist.dist[i],
 					p_evt->loc.anchors.dist.qf[i]);
 		}
-		printf("\n");
+                if (p_evt->loc.pos_available) {
+                        printf("POS,%ld,%ld,%ld,%u,", 
+                                        p_evt->loc.pos.x,
+					p_evt->loc.pos.y, 
+                                        p_evt->loc.pos.z,
+					p_evt->loc.pos.qf);
+                        printf("UWBLOCALTIME,%lu,", dwm_systime_us_get());
+		} else {;}
+                for (i = 0; i < 6; i++) {
+                        rv = dwm_i2c_write(LIS2DX_SLAVE_ADDR, &REGISTER[i], 1, true);
+                        rv = dwm_i2c_read(LIS2DX_SLAVE_ADDR, &data[i], 1);
+                }
+                
+                /* Requires to type "av" command using UART in the Shell Mode 
+                to configure the accelerometer*/
+                if (rv == DWM_OK) {
+                        acc[0] = ((uint16_t)data[0] << 8) | data[1];
+                        acc[1] = ((uint16_t)data[2] << 8) | data[3];
+                        acc[2] = ((uint16_t)data[4] << 8) | data[5];
+                        printf("ACC,[%d,%d,%d]", acc[0], acc[1], acc[2]);
+		} else {
+			printf("i2c: read failed (%d)\n", rv);
+		}
+                
+                printf("\n");
 		break;
 
 	case DWM_EVT_USR_DATA_READY:
@@ -162,15 +200,12 @@ void app_thread_entry(uint32_t data)
 
 	while (1) {
 		/* Thread loop */
-                printf(cfg.mode == DWM_MODE_TAG);
 		rv = dwm_evt_wait(&evt);
                 dwm_pos_get(&pos);
-                printf("DIST,x=%ld, y=%ld, z=%ld, qf=%u \n", pos.x, pos.y, pos.z, pos.qf);
-                printf("\t\t time=%lu \n", dwm_systime_us_get());
-		if (rv != DWM_OK) {
+                if (rv != DWM_OK) {
 			printf("dwm_evt_wait, error %d\n", rv);
 		} else {
-			on_dwm_evt(&evt);
+			on_dwm_evt(&evt);                        
 		}
 	}
 }
@@ -188,7 +223,7 @@ void dwm_user_start(void)
 
 	dwm_shell_compile();
 	//Disabling ble by default as softdevice prevents debugging with breakpoints (due to priority)
-	//dwm_ble_compile();
+	dwm_ble_compile();
 	dwm_le_compile();
 	dwm_serial_spi_compile();
 
