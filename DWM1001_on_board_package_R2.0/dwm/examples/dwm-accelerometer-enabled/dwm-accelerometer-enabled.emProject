@@ -17,7 +17,7 @@
       project_directory=""
       project_type="Externally Built Executable" />
     <folder Name="Source">
-      <file file_name="dwm-simple.c" />
+      <file file_name="dwm-accelerometer-enabled.c" />
     </folder>
     <folder Name="Internal">
       <file file_name="dwm.o" />

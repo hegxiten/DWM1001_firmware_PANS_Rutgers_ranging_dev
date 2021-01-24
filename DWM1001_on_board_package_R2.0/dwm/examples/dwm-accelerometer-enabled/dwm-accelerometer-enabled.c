@@ -69,7 +69,7 @@ void on_dwm_evt(dwm_evt_t *p_evt)
 	/* New location data */
 	case DWM_EVT_LOC_READY:
                 
-                printf("DIST,%d,",p_evt->loc.anchors.an_pos.cnt);
+                printf("DIST,%d;",p_evt->loc.anchors.an_pos.cnt);
 		for (i = 0; i < p_evt->loc.anchors.dist.cnt; ++i) {
 			printf("[AN%d,%04X,", i, (unsigned int)(p_evt->loc.anchors.dist.addr[i] & 0xffff));
 			if (i < p_evt->loc.anchors.an_pos.cnt) {
@@ -79,16 +79,15 @@ void on_dwm_evt(dwm_evt_t *p_evt)
 						p_evt->loc.anchors.an_pos.pos[i].z);
 			}
 
-			printf("=[%lu,%u],", p_evt->loc.anchors.dist.dist[i],
+			printf("=[%lu,%u];", p_evt->loc.anchors.dist.dist[i],
 					p_evt->loc.anchors.dist.qf[i]);
 		}
                 if (p_evt->loc.pos_available) {
-                        printf("POS,%ld,%ld,%ld,%u,", 
+                        printf("POS=[%ld,%ld,%ld,%u];", 
                                         p_evt->loc.pos.x,
 					p_evt->loc.pos.y, 
                                         p_evt->loc.pos.z,
 					p_evt->loc.pos.qf);
-                        printf("UWBLOCALTIME,%lu,", dwm_systime_us_get());
 		} else {;}
                 for (i = 0; i < 6; i++) {
                         rv = dwm_i2c_write(LIS2DX_SLAVE_ADDR, &REGISTER[i], 1, true);
@@ -101,11 +100,9 @@ void on_dwm_evt(dwm_evt_t *p_evt)
                         acc[0] = ((uint16_t)data[0] << 8) | data[1];
                         acc[1] = ((uint16_t)data[2] << 8) | data[3];
                         acc[2] = ((uint16_t)data[4] << 8) | data[5];
-                        printf("ACC,[%d,%d,%d]", acc[0], acc[1], acc[2]);
-		} else {
-			printf("i2c: read failed (%d)\n", rv);
-		}
-                
+                        printf("ACC=[%d,%d,%d];", acc[0], acc[1], acc[2]);
+		} else {;}
+                printf("UWBLOCALTIME,%lu;", dwm_systime_us_get());
                 printf("\n");
 		break;
 
@@ -158,8 +155,8 @@ void app_thread_entry(uint32_t data)
 	/* Get node configuration */
 	APP_ERR_CHECK(dwm_cfg_get(&cfg));
 
-	/* Update rate set to 1 second, stationary update rate set to 5 seconds */
-	APP_ERR_CHECK(dwm_upd_rate_set(10, 10));
+	/* Update rate set to 0.1 second, stationary update rate set to 0.1 seconds */
+	APP_ERR_CHECK(dwm_upd_rate_set(1, 1));
 
 	/* Sensitivity for switching between stationary and normal update rate */
 	APP_ERR_CHECK(dwm_stnry_cfg_set(DWM_STNRY_SENSITIVITY_NORMAL));
@@ -205,7 +202,7 @@ void app_thread_entry(uint32_t data)
                 if (rv != DWM_OK) {
 			printf("dwm_evt_wait, error %d\n", rv);
 		} else {
-			on_dwm_evt(&evt);                        
+                        if(cfg.loc_engine_en) {on_dwm_evt(&evt);}
 		}
 	}
 }
