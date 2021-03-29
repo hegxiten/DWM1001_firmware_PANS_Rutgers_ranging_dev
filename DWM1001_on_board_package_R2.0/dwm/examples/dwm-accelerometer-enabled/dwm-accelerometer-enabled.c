@@ -7,7 +7,7 @@
  * Modified by Zezhou Wang, Dec. 2020.
  *
  */
-
+  
 #include "dwm.h"
 #include <stdio.h>
 
@@ -68,7 +68,12 @@ void on_dwm_evt(dwm_evt_t *p_evt)
         switch (p_evt->header.id) {
 	/* New location data */
 	case DWM_EVT_LOC_READY:
-                
+        /* TODO: Implement interactive shell mode to control the reporting activity. Currently it is automatically reported */
+                /* Original firmware reporting pattern:
+                 * DIST,4,AN0,459A,50332.16,328.70,0.00,2.59,AN1,0B1E,-870767.38,-60522.75,64.26,2.56,AN2,15BA,2144082.25,1639.32,0.00,2.27,AN3,0487,69.00,-6940.00,0.83,2.17
+                 * Converted reporting pattern:
+                 * DIST,4;[AN0,C584,160,0,1510]=[1176,100];[AN1,8287,2700,0,1340]=[2801,100];[AN2,DA36,400,3250,790]=[2838,100];[AN3,9234,2910,2850,550]=[3058,100];POS=[502,827,803,58];ACC=[-512,768,8448];UWBLOCALTIME,38439537;
+                 */
                 printf("DIST,%d;",p_evt->loc.anchors.an_pos.cnt);
 		for (i = 0; i < p_evt->loc.anchors.dist.cnt; ++i) {
 			printf("[AN%d,%04X,", i, (unsigned int)(p_evt->loc.anchors.dist.addr[i] & 0xffff));
@@ -94,8 +99,7 @@ void on_dwm_evt(dwm_evt_t *p_evt)
                         rv = dwm_i2c_read(LIS2DX_SLAVE_ADDR, &data[i], 1);
                 }
                 
-                /* Requires to type "av" command using UART in the Shell Mode 
-                to configure the accelerometer*/
+                /* Require to type "av" command using UART in the Shell Mode to configure the accelerometer*/
                 if (rv == DWM_OK) {
                         acc[0] = ((uint16_t)data[0] << 8) | data[1];
                         acc[1] = ((uint16_t)data[2] << 8) | data[3];
